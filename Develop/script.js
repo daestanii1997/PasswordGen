@@ -1,4 +1,6 @@
-let chosenChar = "";
+let chosenChar = [];
+
+let pswdString = "";
 
 const passwordFilter = {
   lowercase: "abcdefghijklmnopqrstuvwxyz",
@@ -9,41 +11,59 @@ const passwordFilter = {
 
 let generatePassword = function () {
 
+  let getRandomChar = function(chosenChar){
+    return chosenChar[Math.floor(Math.random() * chosenChar.length)];
+  }
+
   let passwordLength = Number(window.prompt("Please enter the number of required characters(8-128)."));
     if (passwordLength >= 8 && passwordLength <= 128) {
     
   let getLowercase = window.confirm("Would you like lowercase letters?");
     if (getLowercase) {
-      chosenChar += passwordFilter.lowercase;
-      // chosenChar.push(getRandomChar(passwordFilter.lowercase));
+      pswdString += passwordFilter.lowercase;
+      chosenChar.push(getRandomChar(passwordFilter.lowercase));
     };  
     
   let getUppercase = window.confirm("Would you like uppercase letters?");
     if (getUppercase) {
-      chosenChar += passwordFilter.uppercase;
-      // chosenChar.push(getRandomChar(passwordFilter.uppercase));
+      pswdString += passwordFilter.uppercase;
+      chosenChar.push(getRandomChar(passwordFilter.uppercase));
     };
     
   let getNumbers = window.confirm("Would you like numbers?");
     if (getNumbers) {
-      chosenChar += passwordFilter.numbers;
-      // chosenChar.push(getRandomChar(passwordFilter.numbers));
+      pswdString += passwordFilter.numbers;
+      chosenChar.push(getRandomChar(passwordFilter.numbers));
     };
     
   let getSpecialCharacters = window.confirm("Would you like special characters")
     if (getSpecialCharacters) {
-      chosenChar += passwordFilter.specialCharacters;
-      // chosenChar.push(getRandomChar(passwordFilter.specialCharacters));
+      pswdString += passwordFilter.specialCharacters;
+      chosenChar.push(getRandomChar(passwordFilter.specialCharacters));
     };
-
+  } else {
+    alert("Please enter a valid length!")
   };
+
+  if(!pswdString) {
+    alert("You need to choose at least one option!")
+    return generatePassword();
+  }
+
+  while (chosenChar.length < passwordLength) {
+    chosenChar.push(getRandomChar(pswdString))
+  }
+
+  for( let i = chosenChar.length - 1; i > 0; i--) {
+    let shuffle = Math.floor(Math.random() * (i + 1));
+    let temp = chosenChar[i];
+    chosenChar[i] = chosenChar[shuffle];
+    chosenChar[shuffle] = temp;
+  }
+
+  return chosenChar.join("");
+
 }
-
-
-
-
-
-
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
