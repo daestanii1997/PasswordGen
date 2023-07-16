@@ -11,9 +11,13 @@ const passwordFilter = {
 
 let generatePassword = function () {
 
+// pulls random values from chosen string
+
   let getRandomChar = function(chosenChar){
     return chosenChar[Math.floor(Math.random() * chosenChar.length)];
   }
+
+  // Password prompts
 
   let passwordLength = Number(window.prompt("Please enter the number of required characters(8-128)."));
     if (passwordLength >= 8 && passwordLength <= 128) {
@@ -41,6 +45,9 @@ let generatePassword = function () {
       pswdString += passwordFilter.specialCharacters;
       chosenChar.push(getRandomChar(passwordFilter.specialCharacters));
     };
+
+    // Incorrect input messages
+
   } else {
     alert("Please enter a valid length!")
   };
@@ -49,6 +56,8 @@ let generatePassword = function () {
     alert("You need to choose at least one option!")
     return generatePassword();
   }
+
+  // Password lenth and random characters
 
   while (chosenChar.length < passwordLength) {
     chosenChar.push(getRandomChar(pswdString))
